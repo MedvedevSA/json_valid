@@ -21,21 +21,32 @@ for address, dirs, files in folder:
 is_open = 0
 
 
-for file in file_list:
-    if file.find(".schema") > 0:
-        with open(file) as f:
+for file_schema in file_list:
+    if file_schema.find(".schema") > 0:
+        with open(file_schema) as f:
             cur_schema = json.load(f)
-            print (json.dumps(cur_schema, indent = 2))
-        break
+            for file_json in file_list:
+                if file_json.find(".json") > 0:
+                    with open(file_json) as f:
+                        cur_json = json.load(f)
 
-
-            #print (json.dumps(cur_json, indent = 2))
-for file in file_list:
-    if file.find(".json") > 0:
-        with open(file) as f:
-            cur_json = json.load(f)
-            print(Draft3Validator(cur_schema).is_valid(cur_json))
+                        instance = cur_json
+                        v = Draft3Validator(cur_schema)
+                        errors = sorted(v.iter_errors(instance), key=lambda e: e.path)
+                        for error in errors:
+                            print(error.message)
+                        
+                        """
+                        print(file_schema,"---->",file_json)
+                        print(Draft3Validator(cur_schema).is_valid(cur_json))
+                        """
+            break
+            #print (json.dumps(cur_schema, indent = 2))
         
+
+        print("--------------------------------------")
+            #print (json.dumps(cur_json, indent = 2))
+            
 
 print("")
 
