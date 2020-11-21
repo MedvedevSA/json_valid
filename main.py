@@ -19,7 +19,8 @@ for address, dirs, files in folder:
         file_list.append( address + '\\'+file)          #Создаем список файлов для всех папок, все в одной куче
 
 
-
+with open('README.md', 'w') as tmp:
+    print("\nREADME.md clear done\n")
 
 for file_schema in file_list:
     if file_schema.find(".schema") > 0:                 # если очередной файл из кучи файлов *.schema
@@ -39,7 +40,7 @@ for file_schema in file_list:
                         for error in errors:
                             log_file = open('README.md', 'a')
                             log_file.write  (file_json[file_json.rfind("\\"):len(file_json)] +" ---> " )
-                            log_file.write  (file_schema[file_schema.rfind("\\"):len(file_schema)] + ":\n") 
+                            log_file.write  (file_schema[file_schema.rfind("\\"):len(file_schema)] + ":\n\n") 
                             log_file.write  ("\tError :" + error.message + "\n\n\n")
 
                             print(file_json[file_json.rfind("\\"):len(file_json)] , end=" ---> ")       #и если они есть сообщаем для какого *json по какой *schema какого тапа ошибки 
