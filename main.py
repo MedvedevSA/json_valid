@@ -36,10 +36,16 @@ for file_schema in file_list:
                         v = Draft3Validator(cur_schema)
                         errors = sorted(v.iter_errors(instance), key=lambda e: e.path)          #сохраняем ошибки валидности, если они есть                        
                         
-                        for error in errors:                                                                
+                        for error in errors:
+                            log_file = open('README.md', 'a')
+                            log_file.write  (file_json[file_json.rfind("\\"):len(file_json)] +" ---> " )
+                            log_file.write  (file_schema[file_schema.rfind("\\"):len(file_schema)] + ":\n") 
+                            log_file.write  ("\tError :" + error.message + "\n\n\n")
+
                             print(file_json[file_json.rfind("\\"):len(file_json)] , end=" ---> ")       #и если они есть сообщаем для какого *json по какой *schema какого тапа ошибки 
                             print(file_schema[file_schema.rfind("\\"):len(file_schema)], ":")
                             print("Error :",error.message,"\n")
                             
-
         print("--------------------------------------")
+
+log_file.close()
